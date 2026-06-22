@@ -1,0 +1,74 @@
+digraph 第二章_可行性研究与计划 {
+    rankdir=LR;
+    bgcolor="#FAFBFC";
+    node [shape=box, style="rounded,filled", fontname="STHeiti", fontsize=11];
+    edge [color="#5B6770", penwidth=1.2];
+    splines=ortho;
+    nodesep=0.3;
+    ranksep=0.6;
+
+    // ===== 根节点 =====
+    root [label="第二章\n可行性研究与计划", fillcolor="#1A5276", fontcolor=white, fontsize=15, shape=box, style="filled,rounded", width=2.2, height=1.2];
+
+    // ===== 核心矛盾 =====
+    core [label="核心目的", fillcolor="#2E86C1", fontcolor=white, fontsize=12];
+    core_detail [label="小代价·短时间\n确定值不值得解决", fillcolor="#D6EAF8", fontcolor="#1A5276", fontsize=10];
+    root -> core;
+    core -> core_detail;
+
+    // ===== 一级分支：三类可行性（红-考点） =====
+    b1 [label="三类可行性", fillcolor="#E74C3C", fontcolor=white, fontsize=12];
+    root -> b1;
+    b1_n1 [label="技术:能不能实现\n经济:划不划算", fillcolor="#FADBD8", fontcolor="#922B21"];
+    b1_n2 [label="操作:能不能用起来\n(法律:合不合法)", fillcolor="#FADBD8", fontcolor="#922B21"];
+    b1 -> b1_n1;
+    b1 -> b1_n2;
+
+    // ===== 一级分支：数据流图DFD（青-概念） =====
+    b2 [label="数据流图DFD★", fillcolor="#1ABC9C", fontcolor=white, fontsize=12];
+    root -> b2;
+    b2_n1 [label="四符号:方源·圆处·开存·箭流", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    b2_n2 [label="分层:顶0层1层...\n父子平衡:数据流一致", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    b2 -> b2_n1;
+    b2 -> b2_n2;
+
+    // ===== 一级分支：数据字典DD（绿-方法） =====
+    b3 [label="数据字典DD", fillcolor="#27AE60", fontcolor=white, fontsize=12];
+    root -> b3;
+    b3_n1 [label="四元素:流·项·存·处", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    b3_n2 [label="与DFD互补(非替代)\n图文合一才完整", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    b3 -> b3_n1;
+    b3 -> b3_n2;
+
+    // ===== 一级分支：系统流程图（紫） =====
+    b4 [label="系统流程图", fillcolor="#8E44AD", fontcolor=white, fontsize=12];
+    root -> b4;
+    b4_n1 [label="描述物理系统", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    b4_n2 [label="DFD描述逻辑系统", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    b4 -> b4_n1;
+    b4 -> b4_n2;
+
+    // ===== 一级分支：成本估算（橙） =====
+    b5 [label="成本估算", fillcolor="#D35400", fontcolor=white, fontsize=12];
+    root -> b5;
+    b5_n1 [label="LOC(代码行)·FP(功能点)\nFP不受语言影响", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    b5_n2 [label="COCOMO:基本→中级→详细\n精度递增", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    b5 -> b5_n1;
+    b5 -> b5_n2;
+
+    // ===== 一级分支：成本效益（黄-口诀） =====
+    b6 [label="成本效益分析", fillcolor="#F39C12", fontcolor=white, fontsize=12];
+    root -> b6;
+    b6_n1 [label="货币时间价值\n现在的钱>未来的钱", fillcolor="#FEF9E7", fontcolor="#B7950B"];
+    b6_n2 [label="投资回收期·纯收入\n贴现折算现值", fillcolor="#FEF9E7", fontcolor="#B7950B"];
+    b6 -> b6_n1;
+    b6 -> b6_n2;
+
+    // ===== 一级分支：易混淆对比 =====
+    compare [label="易混淆对比", fillcolor="#34495E", fontcolor=white, fontsize=12];
+    root -> compare;
+    cp1 [label="技术:服务器并发能力(能造吗)\n操作:员工能否接受(能用吗)", fillcolor="#D5D8DC", fontcolor="#2C3E50"];
+    cp2 [label="可行性研究:简化压缩(做不做)\n需求分析:详细(做什么)", fillcolor="#D5D8DC", fontcolor="#2C3E50"];
+    compare -> cp1;
+    compare -> cp2;
+}

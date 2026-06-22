@@ -1,0 +1,93 @@
+digraph 第十章 {
+    rankdir=LR;
+    bgcolor="#FAFBFC";
+    node [shape=box, style="rounded,filled", fontname="STHeiti", fontsize=11];
+    edge [color="#5B6770", penwidth=1.2];
+    splines=ortho;
+    nodesep=0.3;
+    ranksep=0.6;
+
+    // ===== 根节点 =====
+    root [label="第十章\n数据库恢复技术", fillcolor="#1A5276", fontcolor=white, fontsize=15, shape=box, style="filled,rounded", width=2.2, height=1.2];
+
+    // ===== 核心矛盾 =====
+    core [label="根本矛盾", fillcolor="#2E86C1", fontcolor=white, fontsize=12];
+    core_detail [label="承诺=对齐现实\n硬件会坏/断电/出错", fillcolor="#D6EAF8", fontcolor="#1A5276", fontsize=10];
+    root -> core;
+    core -> core_detail;
+
+    // ===== 一级分支：事务 =====
+    tx [label="事务\n最小单位", fillcolor="#1ABC9C", fontcolor=white, fontsize=12];
+    root -> tx;
+    t1 [label="概念:全做或全不做", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    t2 [label="一个程序\n包含多个事务", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    t3 [label="ACID 4特性\nA原子 C一致\nI隔离 D持续", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    t4 [label="SQL定义:\nBEGIN TRANSACTION\nCOMMIT/ROLLBACK", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    t5 [label="一致性靠原子性保证", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    tx -> t1;
+    tx -> t2;
+    tx -> t3;
+    tx -> t4;
+    tx -> t5;
+
+    // ===== 一级分支：4 种故障 =====
+    fault [label="4 种故障\n(严重度递增)", fillcolor="#E74C3C", fontcolor=white, fontsize=12];
+    root -> fault;
+    f1 [label="事务内部\n运算溢出/违反约束", fillcolor="#FADBD8", fontcolor="#922B21"];
+    f2 [label="系统故障(软)\n断电/OS故障", fillcolor="#FADBD8", fontcolor="#922B21"];
+    f3 [label="介质故障(硬)\n磁盘损坏/磁头撞", fillcolor="#FADBD8", fontcolor="#922B21"];
+    f4 [label="计算机病毒", fillcolor="#FADBD8", fontcolor="#922B21"];
+    fault -> f1;
+    fault -> f2;
+    fault -> f3;
+    fault -> f4;
+
+    // ===== 一级分支：恢复技术 =====
+    tech [label="恢复技术\n(3种冗余数据源)", fillcolor="#27AE60", fontcolor=white, fontsize=12];
+    root -> tech;
+    // 子：转储
+    dump [label="机制一:数据转储\n(后备副本)", fillcolor="#D5F5E3", fontcolor="#1E8449", fontsize=11];
+    d1 [label="静态(停服) vs 动态(边跑)", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    d2 [label="海量(全量) vs 增量(增量)", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    d3 [label="4种组合:\n动态海量/动态增量\n静态海量/静态增量", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    dump -> d1;
+    dump -> d2;
+    dump -> d3;
+    // 子：日志
+    log [label="机制二:登记日志文件", fillcolor="#D5F5E3", fontcolor="#1E8449", fontsize=11];
+    l1 [label="2种格式:\n以记录为单位\n以数据块为单位", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    l2 [label="3条作用:\n事务/系统恢复必须用\n动态转储必须建\n静态转储也能建", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    l3 [label="2条原则:\n按时间次序\n先写日志后写数据库", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    log -> l1;
+    log -> l2;
+    log -> l3;
+    // 子：镜像
+    mirror [label="机制三:数据库镜像\n(事中预防)", fillcolor="#D5F5E3", fontcolor="#1E8449", fontsize=11];
+    m1 [label="实时复制数据到\n另一磁盘", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    m2 [label="事后补救 vs\n事中预防", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    mirror -> m1;
+    mirror -> m2;
+    tech -> dump;
+    tech -> log;
+    tech -> mirror;
+
+    // ===== 一级分支：恢复策略 =====
+    strategy [label="不同故障的恢复\n(UNDO/REDO)", fillcolor="#D35400", fontcolor=white, fontsize=12];
+    root -> strategy;
+    s1 [label="事务故障\nUNDO撤销\n(没干完→改回去)", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    s2 [label="系统故障\nUNDO+REDO\n(撤销+重做)", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    s3 [label="介质故障\n重装+REDO\n(后备副本+日志)", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    s4 [label="速记:\n没干完→UNDO\n已提交但没落盘→REDO", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    strategy -> s1;
+    strategy -> s2;
+    strategy -> s3;
+    strategy -> s4;
+
+    // ===== 一级分支：检查点 =====
+    cp [label="检查点恢复\n(效率优化)", fillcolor="#8E44AD", fontcolor=white, fontsize=12];
+    root -> cp;
+    c1 [label="日志中打标记\n标记前可安全丢弃", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    c2 [label="4种事务状态:\nT1前完成→不重做\nT2后完成→重做\nT3前开始未完→撤销\nT4后开始未完→撤销", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    cp -> c1;
+    cp -> c2;
+}

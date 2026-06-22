@@ -1,0 +1,74 @@
+digraph 第五章_软件测试与维护 {
+    rankdir=LR;
+    bgcolor="#FAFBFC";
+    node [shape=box, style="rounded,filled", fontname="STHeiti", fontsize=11];
+    edge [color="#5B6770", penwidth=1.2];
+    splines=ortho;
+    nodesep=0.3;
+    ranksep=0.6;
+
+    // ===== 根节点 =====
+    root [label="第五章\n软件测试与维护★", fillcolor="#1A5276", fontcolor=white, fontsize=15, shape=box, style="filled,rounded", width=2.2, height=1.2];
+
+    // ===== 核心矛盾 =====
+    core [label="核心目标", fillcolor="#2E86C1", fontcolor=white, fontsize=12];
+    core_detail [label="测试发现错误(非证对)\n黑盒看功能·白盒看逻辑", fillcolor="#D6EAF8", fontcolor="#1A5276", fontsize=10];
+    root -> core;
+    core -> core_detail;
+
+    // ===== 一级分支：黑盒测试（青-概念） =====
+    b1 [label="黑盒测试(功能测试)", fillcolor="#1ABC9C", fontcolor=white, fontsize=12];
+    root -> b1;
+    b1_n1 [label="依据:需求规格说明书", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    b1_n2 [label="方法:等边因判错场\n等价类+边界值(补充非替代)", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    b1 -> b1_n1;
+    b1 -> b1_n2;
+
+    // ===== 一级分支：白盒覆盖（红-考点） =====
+    b2 [label="白盒覆盖★(结构测试)", fillcolor="#E74C3C", fontcolor=white, fontsize=12];
+    root -> b2;
+    b2_n1 [label="弱→强:语判条判组路\n依据:流程图+源代码", fillcolor="#FADBD8", fontcolor="#922B21"];
+    b2_n2 [label="最弱:语句 最强:路径\n路径最强也不能保证全对", fillcolor="#FADBD8", fontcolor="#922B21"];
+    b2 -> b2_n1;
+    b2 -> b2_n2;
+
+    // ===== 一级分支：覆盖关系（绿-坑点） =====
+    b3 [label="覆盖关系★坑点", fillcolor="#27AE60", fontcolor=white, fontsize=12];
+    root -> b3;
+    b3_n1 [label="判定⊇语句(判定包语句)", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    b3_n2 [label="条件与判定不可比!\n判定/条件⊇两者", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    b3 -> b3_n1;
+    b3 -> b3_n2;
+
+    // ===== 一级分支：测试层次（橙） =====
+    b4 [label="测试四层次", fillcolor="#D35400", fontcolor=white, fontsize=12];
+    root -> b4;
+    b4_n1 [label="单元(白盒)→集成→系统(黑盒)→验收", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    b4_n2 [label="顶桩底驱!\n自顶→桩·自底→驱", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    b4 -> b4_n1;
+    b4 -> b4_n2;
+
+    // ===== 一级分支：αβ测试（紫-坑点） =====
+    b5 [label="α/β测试★坑点", fillcolor="#8E44AD", fontcolor=white, fontsize=12];
+    root -> b5;
+    b5_n1 [label="α:开发环境·用户测", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    b5_n2 [label="β:用户环境·用户测\n区分=地点(非开发者在场!)", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    b5 -> b5_n1;
+    b5 -> b5_n2;
+
+    // ===== 一级分支：维护（黄-口诀） =====
+    b6 [label="软件维护★", fillcolor="#F39C12", fontcolor=white, fontsize=12];
+    root -> b6;
+    b6_n1 [label="改适完预\n完善性占比50%以上!", fillcolor="#FEF9E7", fontcolor="#B7950B"];
+    b6_n2 [label="回归测试:改后回归防新错\n调试:强回原", fillcolor="#FEF9E7", fontcolor="#B7950B"];
+    b6 -> b6_n1;
+    b6 -> b6_n2;
+
+    // ===== 一级分支：易混淆对比 =====
+    compare [label="易混淆对比", fillcolor="#34495E", fontcolor=white, fontsize=12];
+    root -> compare;
+    cp1 [label="黑盒:判定表(依据需求)\n白盒:判定覆盖(依据代码)", fillcolor="#D5D8DC", fontcolor="#2C3E50"];
+    cp2 [label="α/β都是用户测·开发者都不在场\n区分=地点(开发环境vs用户环境)", fillcolor="#D5D8DC", fontcolor="#2C3E50"];
+    compare -> cp1;
+    compare -> cp2;
+}

@@ -1,0 +1,74 @@
+digraph 第四章_软件设计 {
+    rankdir=LR;
+    bgcolor="#FAFBFC";
+    node [shape=box, style="rounded,filled", fontname="STHeiti", fontsize=11];
+    edge [color="#5B6770", penwidth=1.2];
+    splines=ortho;
+    nodesep=0.3;
+    ranksep=0.6;
+
+    // ===== 根节点 =====
+    root [label="第四章\n软件设计", fillcolor="#1A5276", fontcolor=white, fontsize=15, shape=box, style="filled,rounded", width=2.2, height=1.2];
+
+    // ===== 核心矛盾 =====
+    core [label="核心任务", fillcolor="#2E86C1", fontcolor=white, fontsize=12];
+    core_detail [label="做什么→怎么做\n总体设计+详细设计", fillcolor="#D6EAF8", fontcolor="#1A5276", fontsize=10];
+    root -> core;
+    core -> core_detail;
+
+    // ===== 一级分支：两阶段（青-概念） =====
+    b1 [label="设计两阶段", fillcolor="#1ABC9C", fontcolor=white, fontsize=12];
+    root -> b1;
+    b1_n1 [label="总体设计:划模块·定结构", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    b1_n2 [label="详细设计:写算法·定逻辑", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    b1 -> b1_n1;
+    b1 -> b1_n2;
+
+    // ===== 一级分支：内聚（红-考点） =====
+    b2 [label="内聚7级★(越高越好)", fillcolor="#E74C3C", fontcolor=white, fontsize=12];
+    root -> b2;
+    b2_n1 [label="低→高:偶逻时过通顺功", fillcolor="#FADBD8", fontcolor="#922B21"];
+    b2_n2 [label="最低:偶然 最高:功能", fillcolor="#FADBD8", fontcolor="#922B21"];
+    b2 -> b2_n1;
+    b2 -> b2_n2;
+
+    // ===== 一级分支：耦合（绿-考点） =====
+    b3 [label="耦合7级★(越低越好)", fillcolor="#27AE60", fontcolor=white, fontsize=12];
+    root -> b3;
+    b3_n1 [label="高→低:内公外控特数非", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    b3_n2 [label="最高:内容 最低:非直接\n数据耦合是低耦合!", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    b3 -> b3_n1;
+    b3 -> b3_n2;
+
+    // ===== 一级分支：McCabe（橙-计算） =====
+    b4 [label="McCabe复杂度★", fillcolor="#D35400", fontcolor=white, fontsize=12];
+    root -> b4;
+    b4_n1 [label="V(G)=E-N+2\n边减点加二", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    b4_n2 [label="=独立路径数\n=最少测试用例数", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    b4 -> b4_n1;
+    b4 -> b4_n2;
+
+    // ===== 一级分支：扇入扇出（紫） =====
+    b5 [label="扇入与扇出", fillcolor="#8E44AD", fontcolor=white, fontsize=12];
+    root -> b5;
+    b5_n1 [label="扇出:向下调用(3-4适中)", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    b5_n2 [label="扇入:向上被调(越大越好)", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    b5 -> b5_n1;
+    b5 -> b5_n2;
+
+    // ===== 一级分支：设计原理与工具（黄-口诀） =====
+    b6 [label="原理与工具", fillcolor="#F39C12", fontcolor=white, fontsize=12];
+    root -> b6;
+    b6_n1 [label="原理:模抽隐局\n控制结构:顺选循", fillcolor="#FEF9E7", fontcolor="#B7950B"];
+    b6_n2 [label="工具:层次图·HIPO·结构图\n判定表·判定树·PDL", fillcolor="#FEF9E7", fontcolor="#B7950B"];
+    b6 -> b6_n1;
+    b6 -> b6_n2;
+
+    // ===== 一级分支：易混淆对比 =====
+    compare [label="易混淆对比", fillcolor="#34495E", fontcolor=white, fontsize=12];
+    root -> compare;
+    cp1 [label="数据耦合=低耦合(非高!)\n控制耦合传flag(非数据!)", fillcolor="#D5D8DC", fontcolor="#2C3E50"];
+    cp2 [label="顺序内聚:输出是下个输入\n过程内聚:按步骤(无数据流)", fillcolor="#D5D8DC", fontcolor="#2C3E50"];
+    compare -> cp1;
+    compare -> cp2;
+}

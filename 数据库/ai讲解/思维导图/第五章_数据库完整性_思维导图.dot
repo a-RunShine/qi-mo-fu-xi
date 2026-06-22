@@ -1,0 +1,61 @@
+digraph 数据库完整性 {
+    rankdir=LR;
+    bgcolor="#FAFBFC";
+    node [shape=box, style="rounded,filled", fontname="STHeiti", fontsize=11];
+    edge [color="#5B6770", penwidth=1.2];
+    splines=ortho;
+    nodesep=0.3;
+    ranksep=0.6;
+
+    root [label="第五章\n数据库完整性", fillcolor="#1A5276", fontcolor=white, fontsize=15, width=2.2, height=1.2];
+
+    conflict [label="根本矛盾", fillcolor="#E74C3C", fontcolor=white, fontsize=12];
+    conflict_detail [label="共享+多人+业务规则\n→ 数据易出错", fillcolor="#FADBD8", fontcolor="#922B21", fontsize=10];
+    root -> conflict;
+    conflict -> conflict_detail;
+
+    def [label="定义与功能", fillcolor="#2E86C1", fontcolor=white, fontsize=12];
+    def_correct [label="正确性\n符合现实", fillcolor="#D6EAF8", fontcolor="#1A5276", fontsize=10];
+    def_consist [label="相容性\n表间自洽", fillcolor="#D6EAF8", fontcolor="#1A5276", fontsize=10];
+    def_three [label="三个功能\n定义→检查→处理", fillcolor="#D6EAF8", fontcolor="#1A5276", fontsize=10];
+    root -> def;
+    def -> def_correct;
+    def -> def_consist;
+    def -> def_three;
+
+    entity [label="实体完整性", fillcolor="#27AE60", fontcolor=white, fontsize=12];
+    entity_pk [label="主码\n最小唯一标识", fillcolor="#D5F5E3", fontcolor="#1E8449", fontsize=10];
+    entity_unique [label="唯一性检查", fillcolor="#D5F5E3", fontcolor="#1E8449", fontsize=10];
+    entity_notnull [label="主码各分量\n均非空", fillcolor="#D5F5E3", fontcolor="#1E8449", fontsize=10];
+    entity_action [label="违约: 拒绝", fillcolor="#D5F5E3", fontcolor="#1E8449", fontsize=10];
+    root -> entity;
+    entity -> entity_pk;
+    entity -> entity_unique;
+    entity -> entity_notnull;
+    entity -> entity_action;
+
+    refer [label="参照完整性\n【重点】", fillcolor="#D35400", fontcolor=white, fontsize=12];
+    refer_fk [label="外码\n子表引用父表", fillcolor="#FDEBD0", fontcolor="#A04000", fontsize=10];
+    refer_4cases [label="4种破坏情形\n子表违规拒绝\n父表违规三选", fillcolor="#FDEBD0", fontcolor="#A04000", fontsize=10];
+    refer_3actions [label="3种违约处理\n拒绝/级联/置空", fillcolor="#FDEBD0", fontcolor="#A04000", fontsize=10];
+    root -> refer;
+    refer -> refer_fk;
+    refer -> refer_4cases;
+    refer -> refer_3actions;
+
+    user [label="用户定义\n完整性", fillcolor="#8E44AD", fontcolor=white, fontsize=12];
+    user_attr [label="属性级\nNOT NULL\nUNIQUE\nCHECK", fillcolor="#E8DAEF", fontcolor="#6C3483", fontsize=10];
+    user_tuple [label="元组级\n跨字段CHECK\n(如: 男不选妇产科学)", fillcolor="#E8DAEF", fontcolor="#6C3483", fontsize=10];
+    user_action [label="违约: 拒绝", fillcolor="#E8DAEF", fontcolor="#6C3483", fontsize=10];
+    root -> user;
+    user -> user_attr;
+    user -> user_tuple;
+    user -> user_action;
+
+    compare [label="与第四章对比", fillcolor="#34495E", fontcolor=white, fontsize=12];
+    compare_ch4 [label="第四章 安全性\n管\"门\"(谁能用)", fillcolor="#D5D8DC", fontcolor="#2C3E50", fontsize=10];
+    compare_ch5 [label="第五章 完整性\n管\"货\"(数据对否)", fillcolor="#D5D8DC", fontcolor="#2C3E50", fontsize=10];
+    root -> compare;
+    compare -> compare_ch4;
+    compare -> compare_ch5;
+}

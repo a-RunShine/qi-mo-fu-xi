@@ -1,0 +1,86 @@
+digraph 第一章 {
+    rankdir=LR;
+    bgcolor="#FAFBFC";
+    node [shape=box, style="rounded,filled", fontname="STHeiti", fontsize=11];
+    edge [color="#5B6770", penwidth=1.2];
+    splines=ortho;
+    nodesep=0.3;
+    ranksep=0.6;
+
+    // ===== 根节点 =====
+    root [label="第一章\n绪论", fillcolor="#1A5276", fontcolor=white, fontsize=15, shape=box, style="filled,rounded", width=2.2, height=1.2];
+
+    // ===== 核心矛盾 =====
+    core [label="根本矛盾", fillcolor="#2E86C1", fontcolor=white, fontsize=12];
+    core_detail [label="现实→计算机\n要用户友好\n要程序独立\n要存储高效", fillcolor="#D6EAF8", fontcolor="#1A5276", fontsize=10];
+    root -> core;
+    core -> core_detail;
+
+    // ===== 一级分支：4 个基本概念 =====
+    concept [label="4 个基本概念", fillcolor="#1ABC9C", fontcolor=white, fontsize=12];
+    root -> concept;
+    c1 [label="数据 Data\n描述事物的符号", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    c2 [label="数据库 DB\n长期存储\n有组织可共享", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    c3 [label="DBMS\n用户与OS之间\n数据管理软件", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    c4 [label="DBS\nDB+DBMS\n+应用+DBA", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    c5 [label="包含关系\nDBS>DBMS>DB\n(后者含前者)", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    concept -> c1;
+    concept -> c2;
+    concept -> c3;
+    concept -> c4;
+    concept -> c5;
+
+    // ===== 一级分支：4 个特点 =====
+    feature [label="4 个特点\n(对比文件系统)", fillcolor="#27AE60", fontcolor=white, fontsize=12];
+    root -> feature;
+    f1 [label="数据结构化\n统一结构描述", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    f2 [label="共享性高\n冗余度低易扩充", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    f3 [label="数据独立性高\n物理+逻辑独立性\n(具体机制见后)", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    f4 [label="DBMS统一管理\n安全/并发/恢复/完整", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    feature -> f1;
+    feature -> f2;
+    feature -> f3;
+    feature -> f4;
+
+    // ===== 一级分支：数据模型 =====
+    model [label="数据模型", fillcolor="#8E44AD", fontcolor=white, fontsize=12];
+    root -> model;
+    // 二级：3 层分类
+    m3layers [label="3 层分类", fillcolor="#E8DAEF", fontcolor="#6C3483", fontsize=11];
+    ml1 [label="概念模型\n草图 E-R表示", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    ml2 [label="逻辑模型\n施工图 关系/网状/层次", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    ml3 [label="物理模型\n实际建筑 磁盘结构", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    m3layers -> ml1;
+    m3layers -> ml2;
+    m3layers -> ml3;
+    // 二级：3 要素
+    m3elem [label="3 要素", fillcolor="#E8DAEF", fontcolor="#6C3483", fontsize=11];
+    me1 [label="数据结构\n静态特性-长啥样", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    me2 [label="数据操作\n动态特性-能干啥", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    me3 [label="完整性约束\n必须满足的规则\n(与第五章不同!)", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    m3elem -> me1;
+    m3elem -> me2;
+    m3elem -> me3;
+    model -> m3layers;
+    model -> m3elem;
+
+    // ===== 一级分支：三级模式+二级映像 =====
+    schema [label="三级模式\n+二级映像", fillcolor="#D35400", fontcolor=white, fontsize=12];
+    root -> schema;
+    // 二级：3 级模式
+    s3modes [label="3 级模式\n同一数据三个面孔", fillcolor="#FDEBD0", fontcolor="#A04000", fontsize=11];
+    sm1 [label="外模式\n子模式/用户模式", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    sm2 [label="模式\n逻辑模式/全局视图", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    sm3 [label="内模式\n存储模式/物理结构", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    s3modes -> sm1;
+    s3modes -> sm2;
+    s3modes -> sm3;
+    // 二级：2 级映像
+    s2img [label="2 级映像\n(翻译官/映射函数)", fillcolor="#FDEBD0", fontcolor="#A04000", fontsize=11];
+    si1 [label="外模式/模式映像\n→ 逻辑独立性\n(部门重组)", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    si2 [label="模式/内模式映像\n→ 物理独立性\n(公司搬迁)", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    s2img -> si1;
+    s2img -> si2;
+    schema -> s3modes;
+    schema -> s2img;
+}

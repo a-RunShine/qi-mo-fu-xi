@@ -1,0 +1,74 @@
+digraph 第一章_软件与软件工程 {
+    rankdir=LR;
+    bgcolor="#FAFBFC";
+    node [shape=box, style="rounded,filled", fontname="STHeiti", fontsize=11];
+    edge [color="#5B6770", penwidth=1.2];
+    splines=ortho;
+    nodesep=0.3;
+    ranksep=0.6;
+
+    // ===== 根节点 =====
+    root [label="第一章\n软件与软件工程", fillcolor="#1A5276", fontcolor=white, fontsize=15, shape=box, style="filled,rounded", width=2.2, height=1.2];
+
+    // ===== 核心矛盾 =====
+    core [label="核心驱动", fillcolor="#2E86C1", fontcolor=white, fontsize=12];
+    core_detail [label="软件危机→软件工程\n工程化解决手工作业", fillcolor="#D6EAF8", fontcolor="#1A5276", fontsize=10];
+    root -> core;
+    core -> core_detail;
+
+    // ===== 一级分支：软件危机（红-考点） =====
+    b1 [label="软件危机", fillcolor="#E74C3C", fontcolor=white, fontsize=12];
+    root -> b1;
+    b1_n1 [label="表现:成本超·进度拖·质量差·难维护", fillcolor="#FADBD8", fontcolor="#922B21"];
+    b1_n2 [label="原因:规模增(客观)·管理缺(主观)", fillcolor="#FADBD8", fontcolor="#922B21"];
+    b1 -> b1_n1;
+    b1 -> b1_n2;
+
+    // ===== 一级分支：软件工程（青-概念） =====
+    b2 [label="软件工程(1968NATO)", fillcolor="#1ABC9C", fontcolor=white, fontsize=12];
+    root -> b2;
+    b2_n1 [label="三要素:方法·工具·过程", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    b2_n2 [label="本质特性:关注软件质量", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    b2 -> b2_n1;
+    b2 -> b2_n2;
+
+    // ===== 一级分支：软件生命周期（绿-方法） =====
+    b3 [label="软件生命周期", fillcolor="#27AE60", fontcolor=white, fontsize=12];
+    root -> b3;
+    b3_n1 [label="定义:问题定义·可行性·需求", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    b3_n2 [label="开发:总体·详细·编码·测试 | 维护", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    b3 -> b3_n1;
+    b3 -> b3_n2;
+
+    // ===== 一级分支：软件过程模型（紫） =====
+    b4 [label="软件过程模型(7种)", fillcolor="#8E44AD", fontcolor=white, fontsize=12];
+    root -> b4;
+    b4_n1 [label="瀑原增螺喷R敏", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    b4_n2 [label="场景:明确→瀑布·模糊→原型\n急需→增量·高风险→螺旋\nOO→喷泉·多变→敏捷", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    b4 -> b4_n1;
+    b4 -> b4_n2;
+
+    // ===== 一级分支：螺旋模型公式（橙） =====
+    b5 [label="螺旋模型公式★", fillcolor="#D35400", fontcolor=white, fontsize=12];
+    root -> b5;
+    b5_n1 [label="=瀑布+快速原型+风险分析", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    b5_n2 [label="坑:不是+增量!Boehm提出", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    b5 -> b5_n1;
+    b5 -> b5_n2;
+
+    // ===== 一级分支：敏捷宣言（黄-口诀） =====
+    b6 [label="敏捷宣言4价值观", fillcolor="#F39C12", fontcolor=white, fontsize=12];
+    root -> b6;
+    b6_n1 [label="个体互动>流程工具\n工作软件>详尽文档", fillcolor="#FEF9E7", fontcolor="#B7950B"];
+    b6_n2 [label="客户合作>合同谈判\n响应变化>遵循计划", fillcolor="#FEF9E7", fontcolor="#B7950B"];
+    b6 -> b6_n1;
+    b6 -> b6_n2;
+
+    // ===== 一级分支：易混淆对比 =====
+    compare [label="易混淆对比", fillcolor="#34495E", fontcolor=white, fontsize=12];
+    root -> compare;
+    cp1 [label="增量:活动级迭代·提交一部分\n螺旋:过程级迭代·提交完整版", fillcolor="#D5D8DC", fontcolor="#2C3E50"];
+    cp2 [label="瀑布缺点:缺乏灵活性(非阶段多)\n敏捷:右项仍有价值(非无文档)", fillcolor="#D5D8DC", fontcolor="#2C3E50"];
+    compare -> cp1;
+    compare -> cp2;
+}

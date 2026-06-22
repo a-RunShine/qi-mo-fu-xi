@@ -1,0 +1,76 @@
+digraph 第十一章 {
+    rankdir=LR;
+    bgcolor="#FAFBFC";
+    node [shape=box, style="rounded,filled", fontname="STHeiti", fontsize=11];
+    edge [color="#5B6770", penwidth=1.2];
+    splines=ortho;
+    nodesep=0.3;
+    ranksep=0.6;
+
+    // ===== 根节点 =====
+    root [label="第十一章\n并发控制", fillcolor="#1A5276", fontcolor=white, fontsize=15, shape=box, style="filled,rounded", width=2.2, height=1.2];
+
+    // ===== 核心矛盾 =====
+    core [label="根本矛盾", fillcolor="#2E86C1", fontcolor=white, fontsize=12];
+    core_detail [label="多用户并发\n又不互相干扰\n又充分利用并发", fillcolor="#D6EAF8", fontcolor="#1A5276", fontsize=10];
+    root -> core;
+    core -> core_detail;
+
+    // ===== 一级分支：3 种不一致 =====
+    incons [label="3 种数据不一致\n(为什么需要并发控制)", fillcolor="#E74C3C", fontcolor=white, fontsize=12];
+    root -> incons;
+    i1 [label="丢失修改\n写-写冲突", fillcolor="#FADBD8", fontcolor="#922B21"];
+    i2 [label="不可重复读\n读-写-再读", fillcolor="#FADBD8", fontcolor="#922B21"];
+    i3 [label="读脏数据\n写-读-撤销", fillcolor="#FADBD8", fontcolor="#922B21"];
+    incons -> i1;
+    incons -> i2;
+    incons -> i3;
+
+    // ===== 一级分支：封锁（X 锁 / S 锁） =====
+    lock [label="封锁\n(X锁/S锁)\n(基本方法)", fillcolor="#1ABC9C", fontcolor=white, fontsize=12];
+    root -> lock;
+    l1 [label="X锁 写锁:\n独占\n其他事务不能加任何锁", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    l2 [label="S锁 读锁:\n共享读\n其他事务可加S锁\n不能加X锁", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    l3 [label="相容矩阵:\nX+X=N X+S=N S+S=Y", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    l4 [label="范围声明:\n4大技术(封锁/时间戳\n/乐观/多版本)\n本章只讲封锁", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    lock -> l1;
+    lock -> l2;
+    lock -> l3;
+    lock -> l4;
+
+    // ===== 一级分支：3 级封锁协议 =====
+    proto [label="3 级封锁协议\n(逐级加强)\n(纪律)", fillcolor="#27AE60", fontcolor=white, fontsize=12];
+    root -> proto;
+    p1 [label="1级:修改前加X锁\n+X锁到事务结束\n(防丢失修改)", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    p2 [label="2级:1级+读前加S锁\n+S锁读完释放\n(+防读脏)", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    p3 [label="3级:1级+读前加S锁\n+S锁到事务结束\n(+防不可重复读)", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    p4 [label="速记:1级防丢\n2级加脏 3级加重", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    proto -> p1;
+    proto -> p2;
+    proto -> p3;
+    proto -> p4;
+
+    // ===== 一级分支：活锁 vs 死锁 =====
+    deadlock [label="活锁 vs 死锁\n(加锁的问题)", fillcolor="#D35400", fontcolor=white, fontsize=12];
+    root -> deadlock;
+    d1 [label="活锁:一个人等\n先来不一定先服务\n→先来先服务", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    d2 [label="死锁:互相等\n单行道两车互不相让", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    d3 [label="死锁预防:\n一次封锁法\n顺序封锁法", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    d4 [label="死锁诊断与解除:\n超时法/等待图法\n撤销代价最小事务", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    deadlock -> d1;
+    deadlock -> d2;
+    deadlock -> d3;
+    deadlock -> d4;
+
+    // ===== 一级分支：可串行化 + 2PL =====
+    serial [label="可串行化 + 2PL\n(正确性判定\n+充分条件)", fillcolor="#8E44AD", fontcolor=white, fontsize=12];
+    root -> serial;
+    s1 [label="可串行化:\n并发结果=某串行结果", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    s2 [label="冲突操作:\n读-写 写-读 写-写\n(不冲突:读-读)", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    s3 [label="冲突可串行化\n属于可串行化\n(子集)", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    s4 [label="两段锁协议(2PL):\n扩展+收缩\n遵守→一定可串行化\n(充分非必要)", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    serial -> s1;
+    serial -> s2;
+    serial -> s3;
+    serial -> s4;
+}

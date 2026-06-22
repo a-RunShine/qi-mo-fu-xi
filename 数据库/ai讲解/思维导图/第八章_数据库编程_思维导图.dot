@@ -1,0 +1,84 @@
+digraph 第八章 {
+    rankdir=LR;
+    bgcolor="#FAFBFC";
+    node [shape=box, style="rounded,filled", fontname="STHeiti", fontsize=11];
+    edge [color="#5B6770", penwidth=1.2];
+    splines=ortho;
+    nodesep=0.3;
+    ranksep=0.6;
+
+    // ===== 根节点 =====
+    root [label="第八章\n数据库编程\n嵌入式SQL", fillcolor="#1A5276", fontcolor=white, fontsize=15, shape=box, style="filled,rounded", width=2.2, height=1.2];
+
+    // ===== 核心矛盾 =====
+    core [label="根本矛盾", fillcolor="#2E86C1", fontcolor=white, fontsize=12];
+    core_detail [label="SQL集合语言\nvs C/Java过程语言\nC主控 SQL被调用", fillcolor="#D6EAF8", fontcolor="#1A5276", fontsize=10];
+    root -> core;
+    core -> core_detail;
+
+    // ===== 一级分支：嵌入式 SQL 语法 =====
+    syntax [label="嵌入式 SQL 语法\n(给预编译器看的)", fillcolor="#1ABC9C", fontcolor=white, fontsize=12];
+    root -> syntax;
+    s1 [label="C语言: EXEC SQL ...;", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    s2 [label="Java: #SQL{...};", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    s3 [label="EXEC SQL给预编译器\n非C编译器", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    s4 [label="区分:\n交互式SQL\n静态/动态SQL\n过程化SQL(PL/SQL)", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    syntax -> s1;
+    syntax -> s2;
+    syntax -> s3;
+    syntax -> s4;
+
+    // ===== 一级分支：SQL 通信区 =====
+    sqlca [label="SQL 通信区\n(SQLCA)", fillcolor="#27AE60", fontcolor=white, fontsize=12];
+    root -> sqlca;
+    q1 [label="DBMS预定义结构体\nEXEC SQL INCLUDE SQLCA", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    q2 [label="SQLCODE三态:\n=0成功\n>0警告(100=无数据)\n<0失败", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    q3 [label="SQL不抛异常\n只把状态码塞SQLCA", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    sqlca -> q1;
+    sqlca -> q2;
+    sqlca -> q3;
+
+    // ===== 一级分支：主变量+指示变量 =====
+    host [label="主变量+指示变量\n(双向传值桥梁)", fillcolor="#8E44AD", fontcolor=white, fontsize=12];
+    root -> host;
+    h1 [label="主变量:SQL借主语言的变量\n输入/输出两种", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    h2 [label="冒号: 标志\n主变量前缀", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    h3 [label="BEGIN/END\nDECLARE SECTION\n中声明", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    h4 [label="指示变量(整型)\n三态:\n<0=NULL =0正常 >0截断", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    host -> h1;
+    host -> h2;
+    host -> h3;
+    host -> h4;
+
+    // ===== 一级分支：游标 =====
+    cursor [label="游标 Cursor\n(集合vs记录核心协调)", fillcolor="#D35400", fontcolor=white, fontsize=12];
+    root -> cursor;
+    c1 [label="本质:SQL系统维护的\n结果集访问机制\n非C指针/非内存地址", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    c2 [label="4步工作流:\nDECLARE声明\nOPEN执行\nFETCH取当前行\nCLOSE释放", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    c3 [label="位置感:\n游标指向当前行\nFETCH一次推一行", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    c4 [label="高级用法:\nWHERE CURRENT OF\n按位置UPDATE/DELETE", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    cursor -> c1;
+    cursor -> c2;
+    cursor -> c3;
+    cursor -> c4;
+
+    // ===== 一级分支：完整程序 =====
+    program [label="完整程序\n8步生命周期", fillcolor="#34495E", fontcolor=white, fontsize=12];
+    root -> program;
+    p1 [label="1.声明主变量\n(DECLARE SECTION)", fillcolor="#D5D8DC", fontcolor="#2C3E50"];
+    p2 [label="2.定义SQLCA\n(INCLUDE SQLCA)", fillcolor="#D5D8DC", fontcolor="#2C3E50"];
+    p3 [label="3.连接CONNECT\n切换SET CONNECTION\n断开DISCONNECT", fillcolor="#D5D8DC", fontcolor="#2C3E50"];
+    p4 [label="4.DECLARE游标", fillcolor="#D5D8DC", fontcolor="#2C3E50"];
+    p5 [label="5.OPEN游标", fillcolor="#D5D8DC", fontcolor="#2C3E50"];
+    p6 [label="6.循环FETCH\nSQLCODE!=0退出", fillcolor="#D5D8DC", fontcolor="#2C3E50"];
+    p7 [label="7.CLOSE游标", fillcolor="#D5D8DC", fontcolor="#2C3E50"];
+    p8 [label="8.COMMIT(WORK可省)\n+ DISCONNECT", fillcolor="#D5D8DC", fontcolor="#2C3E50"];
+    program -> p1;
+    program -> p2;
+    program -> p3;
+    program -> p4;
+    program -> p5;
+    program -> p6;
+    program -> p7;
+    program -> p8;
+}

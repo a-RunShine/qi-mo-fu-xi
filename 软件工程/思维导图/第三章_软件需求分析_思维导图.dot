@@ -1,0 +1,74 @@
+digraph 第三章_软件需求分析 {
+    rankdir=LR;
+    bgcolor="#FAFBFC";
+    node [shape=box, style="rounded,filled", fontname="STHeiti", fontsize=11];
+    edge [color="#5B6770", penwidth=1.2];
+    splines=ortho;
+    nodesep=0.3;
+    ranksep=0.6;
+
+    // ===== 根节点 =====
+    root [label="第三章\n软件需求分析", fillcolor="#1A5276", fontcolor=white, fontsize=15, shape=box, style="filled,rounded", width=2.2, height=1.2];
+
+    // ===== 核心矛盾 =====
+    core [label="核心任务", fillcolor="#2E86C1", fontcolor=white, fontsize=12];
+    core_detail [label="确定系统必须做什么\n建立逻辑模型→输出SRS", fillcolor="#D6EAF8", fontcolor="#1A5276", fontsize=10];
+    root -> core;
+    core -> core_detail;
+
+    // ===== 一级分支：需求分类（红-考点） =====
+    b1 [label="需求分类★", fillcolor="#E74C3C", fontcolor=white, fontsize=12];
+    root -> b1;
+    b1_n1 [label="功能:做什么(登录·查询)\n非功能:做得多好(性能·安全)", fillcolor="#FADBD8", fontcolor="#922B21"];
+    b1_n2 [label="领域:行业特定(银行结算)\n约束:技术限制(用Java)", fillcolor="#FADBD8", fontcolor="#922B21"];
+    b1 -> b1_n1;
+    b1 -> b1_n2;
+
+    // ===== 一级分支：三种模型（青-概念） =====
+    b2 [label="三种模型★", fillcolor="#1ABC9C", fontcolor=white, fontsize=12];
+    root -> b2;
+    b2_n1 [label="数据模型→ER图\n功能模型→DFD", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    b2_n2 [label="行为模型→状态转换图\n口诀:数E功D行状态", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    b2 -> b2_n1;
+    b2 -> b2_n2;
+
+    // ===== 一级分支：需求获取（绿-方法） =====
+    b3 [label="需求获取方法", fillcolor="#27AE60", fontcolor=white, fontsize=12];
+    root -> b3;
+    b3_n1 [label="访谈·问卷·情景分析", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    b3_n2 [label="快速原型·观察法\n口诀:访问情原观", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    b3 -> b3_n1;
+    b3 -> b3_n2;
+
+    // ===== 一级分支：用例图（紫） =====
+    b4 [label="用例图(UML)", fillcolor="#8E44AD", fontcolor=white, fontsize=12];
+    root -> b4;
+    b4_n1 [label="参与者(小人)·用例(椭圆)\n关联·泛化", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    b4_n2 [label="包含include:必然执行\n扩展extend:可选执行", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    b4 -> b4_n1;
+    b4 -> b4_n2;
+
+    // ===== 一级分支：需求验证（橙） =====
+    b5 [label="需求验证四维度", fillcolor="#D35400", fontcolor=white, fontsize=12];
+    root -> b5;
+    b5_n1 [label="一致性(不矛盾)\n现实性(能实现)", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    b5_n2 [label="完整性(不遗漏)\n有效性(解决问题)", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    b5 -> b5_n1;
+    b5 -> b5_n2;
+
+    // ===== 一级分支：SA方法（黄-口诀） =====
+    b6 [label="结构化分析SA", fillcolor="#F39C12", fontcolor=white, fontsize=12];
+    root -> b6;
+    b6_n1 [label="面向数据流\n工具:DFD+DD+ER+STD", fillcolor="#FEF9E7", fontcolor="#B7950B"];
+    b6_n2 [label="输出SRS\n逻辑模型(非物理)", fillcolor="#FEF9E7", fontcolor="#B7950B"];
+    b6 -> b6_n1;
+    b6 -> b6_n2;
+
+    // ===== 一级分支：易混淆对比 =====
+    compare [label="易混淆对比", fillcolor="#34495E", fontcolor=white, fontsize=12];
+    root -> compare;
+    cp1 [label="功能:做什么(登录)\n非功能:做得多好(响应<2s)", fillcolor="#D5D8DC", fontcolor="#2C3E50"];
+    cp2 [label="包含:下单必含登录(必有)\n扩展:支付可选积分(可有)", fillcolor="#D5D8DC", fontcolor="#2C3E50"];
+    compare -> cp1;
+    compare -> cp2;
+}

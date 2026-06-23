@@ -1,0 +1,124 @@
+digraph SQL {
+    rankdir=LR;
+    bgcolor="#FAFBFC";
+    node [shape=box, style="rounded,filled", fontname="STHeiti", fontsize=11, color="#5B6770"];
+    edge [color="#5B6770", penwidth=1.2];
+    splines=ortho;
+    nodesep=0.3;
+    ranksep=0.6;
+
+    root [label="第三章 SQL\n数据库的人话翻译官", fillcolor="#1A5276", fontcolor=white, fontsize=15, width=2.6, height=1.2];
+
+    ddl [label="一、DDL 数据定义\n盖房子 + 编目录", fillcolor="#1ABC9C", fontcolor=white, fontsize=12, width=2.4, height=0.9];
+    ddl_schema [label="模式 SCHEMA\nCREATE / DROP\nCASCADE vs RESTRICT", fillcolor="#D1F2EB", fontcolor="#0E6655", fontsize=10];
+    ddl_table [label="基本表 TABLE\n数据类型 + 完整性约束\n列级 vs 表级", fillcolor="#D1F2EB", fontcolor="#0E6655", fontsize=10];
+    ddl_index [label="索引 INDEX\nUNIQUE / CLUSTER\nRENAME / DROP", fillcolor="#D1F2EB", fontcolor="#0E6655", fontsize=10];
+    root -> ddl;
+    ddl -> ddl_schema;
+    ddl -> ddl_table;
+    ddl -> ddl_index;
+
+    select [label="二、SELECT 骨架\n5 子句 + 执行顺序", fillcolor="#8E44AD", fontcolor=white, fontsize=12, width=2.4, height=0.9];
+    select_order [label="执行顺序\nFROM → WHERE → GROUP →\nHAVING → SELECT → ORDER", fillcolor="#E8DAEF", fontcolor="#6C3483", fontsize=10];
+    select_proj [label="列投影\n指定列 / * / 计算列\n别名 / DISTINCT", fillcolor="#E8DAEF", fontcolor="#6C3483", fontsize=10];
+    root -> select;
+    select -> select_order;
+    select -> select_proj;
+
+    where [label="三、WHERE 过滤条件\n筛子家族 6 类", fillcolor="#D35400", fontcolor=white, fontsize=12, width=2.4, height=0.9];
+    where_cmp [label="比较 = > < !=", fillcolor="#FDEBD0", fontcolor="#A04000", fontsize=10];
+    where_range [label="BETWEEN 含端点", fillcolor="#FDEBD0", fontcolor="#A04000", fontsize=10];
+    where_in [label="IN / NOT IN\n等价 = ANY / != ALL", fillcolor="#FDEBD0", fontcolor="#A04000", fontsize=10];
+    where_like [label="LIKE 通配符\n% 任意长 / _ 单字符\nESCAPE 转义", fillcolor="#FDEBD0", fontcolor="#A04000", fontsize=10];
+    where_null [label="IS NULL / IS NOT NULL\n不能用 = NULL", fillcolor="#FDEBD0", fontcolor="#A04000", fontsize=10];
+    where_andor [label="AND / OR 组合\nAND 优先级 > OR", fillcolor="#FDEBD0", fontcolor="#A04000", fontsize=10];
+    root -> where;
+    where -> where_cmp;
+    where -> where_range;
+    where -> where_in;
+    where -> where_like;
+    where -> where_null;
+    where -> where_andor;
+
+    agg [label="四、聚集 + 分组\n从明细到报表", fillcolor="#27AE60", fontcolor=white, fontsize=12, width=2.4, height=0.9];
+    agg_func [label="聚集函数\nCOUNT / AVG / SUM / MAX / MIN\n跳过空值（COUNT(*) 除外）", fillcolor="#D5F5E3", fontcolor="#1E8449", fontsize=10];
+    agg_where [label="WHERE vs HAVING\n行过滤 vs 组过滤\nWHERE 不能接聚集函数", fillcolor="#D5F5E3", fontcolor="#1E8449", fontsize=10];
+    root -> agg;
+    agg -> agg_func;
+    agg -> agg_where;
+
+    join [label="五、连接查询\n多表拼图", fillcolor="#2E86C1", fontcolor=white, fontsize=12, width=2.4, height=0.9];
+    join_eq [label="等值 / 非等值\n自然连接", fillcolor="#D6EAF8", fontcolor="#1A5276", fontsize=10];
+    join_self [label="自身连接\n必须取别名\nFIRST / SECOND", fillcolor="#D6EAF8", fontcolor="#1A5276", fontsize=10];
+    join_outer [label="外连接\nLEFT / RIGHT / FULL\n保孤儿 + NULL", fillcolor="#D6EAF8", fontcolor="#1A5276", fontsize=10];
+    join_multi [label="多表连接\n两两连 + AND 串", fillcolor="#D6EAF8", fontcolor="#1A5276", fontsize=10];
+    root -> join;
+    join -> join_eq;
+    join -> join_self;
+    join -> join_outer;
+    join -> join_multi;
+
+    nest [label="六、嵌套查询 ★★\n俄罗斯套娃", fillcolor="#E74C3C", fontcolor=white, fontsize=12, width=2.4, height=0.9];
+    nest_in [label="IN-子查询\n不相关子查询", fillcolor="#FADBD8", fontcolor="#922B21", fontsize=10];
+    nest_cmp [label="比较运算符子查询\n必须返回单值", fillcolor="#FADBD8", fontcolor="#922B21", fontsize=10];
+    nest_anyall [label="ANY / ALL\n> ANY = > MIN\n> ALL = > MAX\n= ANY = IN", fillcolor="#FADBD8", fontcolor="#922B21", fontsize=10];
+    nest_exists [label="EXISTS ★★★\n双重 NOT EXISTS\n实现「所有」量词", fillcolor="#FADBD8", fontcolor="#922B21", fontsize=10];
+    nest_corr [label="相关 vs 不相关\n相关：每行重算", fillcolor="#FADBD8", fontcolor="#922B21", fontsize=10];
+    root -> nest;
+    nest -> nest_in;
+    nest -> nest_cmp;
+    nest -> nest_anyall;
+    nest -> nest_exists;
+    nest -> nest_corr;
+
+    setq [label="七、集合 + 派生表", fillcolor="#F39C12", fontcolor=white, fontsize=12, width=2.4, height=0.9];
+    setq_union [label="UNION / INTERSECT / EXCEPT\n列数 + 类型必须一致\nUNION 默认去重", fillcolor="#FEF9E7", fontcolor="#B7950B", fontsize=10];
+    setq_derived [label="派生表\n子查询进 FROM\n必须取别名 AS", fillcolor="#FEF9E7", fontcolor="#B7950B", fontsize=10];
+    root -> setq;
+    setq -> setq_union;
+    setq -> setq_derived;
+
+    dml [label="八、DML 数据更新\n三板斧", fillcolor="#9B59B6", fontcolor=white, fontsize=12, width=2.4, height=0.9];
+    dml_ins [label="INSERT\n完整 / 部分 / 子查询批量", fillcolor="#E8DAEF", fontcolor="#6C3483", fontsize=10];
+    dml_upd [label="UPDATE\n单行 / 多行 / 子查询", fillcolor="#E8DAEF", fontcolor="#6C3483", fontsize=10];
+    dml_del [label="DELETE\n删数据不删结构\n（结构躺在数据字典）", fillcolor="#E8DAEF", fontcolor="#6C3483", fontsize=10];
+    root -> dml;
+    dml -> dml_ins;
+    dml -> dml_upd;
+    dml -> dml_del;
+
+    view [label="九、视图\n虚拟表 / 面具", fillcolor="#34495E", fontcolor=white, fontsize=12, width=2.4, height=0.9];
+    view_types [label="4 类视图\n行列子集 / 表达式\n分组 / 多表导出", fillcolor="#D5D8DC", fontcolor="#2C3E50", fontsize=10];
+    view_ops [label="WITH CHECK OPTION\nCASCADE 级联删\n只行列子集可改", fillcolor="#D5D8DC", fontcolor="#2C3E50", fontsize=10];
+    root -> view;
+    view -> view_types;
+    view -> view_ops;
+
+    nullv [label="十、空值\n第三个逻辑值", fillcolor="#C0392B", fontcolor=white, fontsize=12, width=2.4, height=0.9];
+    nullv_arith [label="空值 ± 数 = 空值", fillcolor="#FADBD8", fontcolor="#922B21", fontsize=10];
+    nullv_cmp [label="空值 比较 = UNKNOWN\nWHERE 只挑 TRUE", fillcolor="#FADBD8", fontcolor="#922B21", fontsize=10];
+    root -> nullv;
+    nullv -> nullv_arith;
+    nullv -> nullv_cmp;
+
+    cmp [label="十一、易混淆对比 ★★\n考前 5 分钟救命表", fillcolor="#7D3C98", fontcolor=white, fontsize=12, width=2.4, height=0.9];
+    cmp_where_having [label="WHERE vs HAVING\n行过滤 vs 组过滤", fillcolor="#E8DAEF", fontcolor="#6C3483", fontsize=10];
+    cmp_cascade [label="CASCADE vs RESTRICT\n砍树枝 vs 金钟罩", fillcolor="#E8DAEF", fontcolor="#6C3483", fontsize=10];
+    cmp_anyall [label="= ANY vs IN  /  != ALL vs NOT IN\n双胞胎 / 同义", fillcolor="#E8DAEF", fontcolor="#6C3483", fontsize=10];
+    cmp_view [label="视图 vs 基本表\n面具 vs 脸", fillcolor="#E8DAEF", fontcolor="#6C3483", fontsize=10];
+    cmp_union [label="UNION vs UNION ALL\n默认去重 vs 保留", fillcolor="#E8DAEF", fontcolor="#6C3483", fontsize=10];
+    cmp_exists_in [label="EXISTS vs IN\n看有没有 vs 看等不等", fillcolor="#E8DAEF", fontcolor="#6C3483", fontsize=10];
+    cmp_corr [label="相关 vs 不相关子查询\n每行重算 vs 算一次", fillcolor="#E8DAEF", fontcolor="#6C3483", fontsize=10];
+    cmp_null [label="= NULL vs IS NULL\n永远 UNKNOWN vs 唯一判空", fillcolor="#E8DAEF", fontcolor="#6C3483", fontsize=10];
+    cmp_rownum [label="行列子集视图 vs 分组视图\n可改 vs 不可改", fillcolor="#E8DAEF", fontcolor="#6C3483", fontsize=10];
+    root -> cmp;
+    cmp -> cmp_where_having;
+    cmp -> cmp_cascade;
+    cmp -> cmp_anyall;
+    cmp -> cmp_view;
+    cmp -> cmp_union;
+    cmp -> cmp_exists_in;
+    cmp -> cmp_corr;
+    cmp -> cmp_null;
+    cmp -> cmp_rownum;
+}

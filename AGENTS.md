@@ -20,7 +20,7 @@
 ### 面向对象原则/笔记/ — 仅 `.md` / `.pdf` / `.docx`
 
 ### 遗留归档（新工作勿放此处）
-- `选择题章节ai讲解/` + `选择题章节ai讲解.zip` — 数据库 AI 讲解旧版归档，仅含 PDF+PNG，已被 `数据库/ai讲解/` 取代
+（旧归档已清理，本节留作历史标记位）
 
 ## 命名规范（强制）
 - 中文章号：`第X章_章节名_类型.扩展名`（章号用中文数字一/二/三…）
@@ -30,13 +30,15 @@
 
 ## 技能（.opencode/skills/）
 
-### pdf-to-exam — PDF 笔记转章节练习题
-工作流：OCR 提取文本 → 合并题目文件 → 残留检查 → 生成 PDF。命令从工作区根目录执行：
+### md-pdf — MD 转 PDF（Claude 深棕 + 信纸色主题）
+主能力：MD 渲染为带项目主题色的 PDF。辅以 PDF OCR（Swift+Vision）、题目合并/残留检查、横线格信纸模板生成。
+工作流：MD 渲染 →（可选 OCR/合并/残留检查/信纸模板）。命令从工作区根目录执行：
 
-- OCR：`swift .opencode/skills/pdf-to-exam/scripts/ocr_pdf.swift input.pdf output_dir output_ocr.txt`
-- 合并：`python3 .opencode/skills/pdf-to-exam/scripts/merge_qa.py base.md supplement.md final.md [--title "标题"]`
-- 残留检查：`python3 .opencode/skills/pdf-to-exam/scripts/check_residue.py final.md`
-- MD 转 PDF：`python3 .opencode/skills/pdf-to-exam/scripts/convert_md_to_pdf.py input.md [output.pdf]`
+- OCR：`swift .opencode/skills/md-pdf/scripts/ocr_pdf.swift input.pdf output_dir output_ocr.txt`
+- 合并：`python3 .opencode/skills/md-pdf/scripts/merge_qa.py base.md supplement.md final.md [--title "标题"]`
+- 残留检查：`python3 .opencode/skills/md-pdf/scripts/check_residue.py final.md`
+- MD 转 PDF：`python3 .opencode/skills/md-pdf/scripts/convert_md_to_pdf.py input.md [output.pdf]`
+- 横线格信纸：`python3 .opencode/skills/md-pdf/scripts/make_lined_paper.py -o L|P [-n 行数]`
 
 ### ai-lecture — 知识点转教师风格讲解 + 思维导图
 工作流：确定来源 → 分析知识结构 → 生成讲解 MD → 可选转 PDF → 可选生成思维导图。
@@ -59,7 +61,7 @@
 
 ## PDF 主题色（2026-06-22 起生效）
 所有 PDF 默认采用「Claude 深棕 + 信纸色」主题，由
-`.opencode/skills/pdf-to-exam/scripts/convert_md_to_pdf.py` 控制：
+`.opencode/skills/md-pdf/scripts/convert_md_to_pdf.py` 控制：
 
 | 元素 | 色值 | 用途 |
 |---|---|---|
@@ -79,17 +81,17 @@
 - **页脚 `header()`/`footer()`**：每页自动绘全页背景 + 页脚（装饰图标 + 章节名 + 页码）；`bottom_margin=24` 给页脚留位。
 
 ## PDF 维护
-- **备份目录**：`pdf_backup_YYYYMMDD/`（如 `pdf_backup_20260622/` 含 45 个旧版 PDF）。回滚命令：`cp -r pdf_backup_20260622/* .`
+- **备份目录**：`pdf_backup_YYYYMMDD/`（按日期滚动的 PDF 旧主题色快照）。当前无活跃备份，需要回滚时执行 `cp -r pdf_backup_YYYYMMDD/* .`
 - **批量重生成**：从工作区根执行
 
       find ./数据库 ./软件工程 ./面向对象原则 -name "*.md" -not -name "INDEX.md" \
-        | xargs -I{} python3 .opencode/skills/pdf-to-exam/scripts/convert_md_to_pdf.py {}
+        | xargs -I{} python3 .opencode/skills/md-pdf/scripts/convert_md_to_pdf.py {}
 
 - **未纳入脚本的 PDF**：`数据库/突击笔记/` 下 4 个 PDF（`大题解题方法` / `SQL语言` / `选填题知识点` / `范式级别判断`）是 OCR 源素材，无 .md 源，未走新主题色。需要重新 OCR + 整理为 .md 后才能用脚本生成。
 - **章节名匹配失败**：_extract_chapter_name 依赖 `第X章_XXX_` 命名规范，不符合命名的 .md 生成 PDF 时页脚会留空（不影响内容）。
 
 ## 选择题深度规格
-完整规范见 `prompts/选择题深度规格说明.md`，生成选择题时必须遵守。核心要点：
+完整规范见 `docs/guides/选择题深度规格说明.md`，生成选择题时必须遵守。核心要点：
 
 - **基础题占 20-25%**：只保留纯记忆必考点（★★★及核心概念辨析）
 - **深度题占 75-80%**：满足以下 4 条中至少 2 条：
@@ -102,7 +104,7 @@
 - 每章基础题数量参考：18题章留4-5题；16题章留3-4题；28题章留6题左右
 
 ## 选择题解析深度规格
-完整规范见 `prompts/选择题解析深度规格说明.md`，生成选择题解析时必须遵守。核心要点：
+完整规范见 `docs/guides/选择题解析深度规格说明.md`，生成选择题解析时必须遵守。核心要点：
 
 - **两类题两种形式**：基础题（纯记忆型）省略正文，只保留 `**答案：X**` + `> 金句`；深度题完整四段式（`### 第X题` → `**答案：X**` → `**解析：**` → 正文 → `> 金句` → `---`）
 - **正文 5 条强制标准（深度题）**：
@@ -146,8 +148,13 @@
 - 解析：`数据库/复习题/选择题/第四章_数据库安全性_选择题解析.md`
 
 ## 规划与配置
-- `plans/` — 资料生成计划文档（.md）
-- `openspec/` — OpenSpec spec-driven 工作流（`changes/` + `specs/`）
+- `docs/adr/` — 架构决策记录
+- `docs/changes/` — 改动记录
+- `docs/plans/` — 策划与计划（前向）
+- `docs/retrospectives/` — 复盘与错误教训（post-mortem）
+- `docs/guides/` — 写作与生成规范
+- `docs/templates/` — 可打印 PDF 模板（信纸、答题卡等）
+- `openspec/` — OpenSpec spec-driven 工作流（`changes/` + `specs/`，当前为空架构）
 - `.opencode/` 与 `.cursor/` 镜像：相同 openspec skills + commands（`opsx-apply` / `archive` / `explore` / `propose`）
 
 ## CodeGraph

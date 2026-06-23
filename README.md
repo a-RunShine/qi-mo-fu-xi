@@ -15,7 +15,12 @@
     │   └── 思维导图/
     ├── Java刷题速成/           # Java 刷题速成 8 篇（00-07 + 速查表）
     ├── 面向对象原则/笔记/      # .md / .pdf / .docx
-    └── prompts/                # 选择题深度规格说明
+    └── docs/                   # 架构决策 / 改动记录 / 计划 / 复盘 / 规范
+        ├── adr/                # Architecture Decision Records
+        ├── changes/            # 改动记录
+        ├── plans/              # 策划与计划
+        ├── retrospectives/     # 复盘与错误教训
+        └── guides/             # 写作与生成规范
 
 ## 阅读路线
 

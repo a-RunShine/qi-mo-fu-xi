@@ -14,13 +14,8 @@ Thumbs.db
 # PDF 备份目录（按日期滚动）
 pdf_backup_*/
 
-# 旧归档
-选择题章节ai讲解.zip
-
 # 内部工作流 / 过程记录
 openspec/
-plans/
-takeaway/
 
 # OCR 中间产物（突击笔记的图片提取）
 数据库/突击笔记/pdf_images/

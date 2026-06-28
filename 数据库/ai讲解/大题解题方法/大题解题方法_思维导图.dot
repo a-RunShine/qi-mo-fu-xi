@@ -1,0 +1,72 @@
+digraph 大题解题方法 {
+    rankdir=LR;
+    bgcolor="#FAFBFC";
+    node [shape=box, style="rounded,filled", fontname="STHeiti", fontsize=11];
+    edge [color="#5B6770", penwidth=1.2];
+    splines=ortho;
+    nodesep=0.3;
+    ranksep=0.6;
+
+    // ===== 根节点 =====
+    root [label="大题解题方法\n套路模板", fillcolor="#1A5276", fontcolor=white, fontsize=15, shape=box, style="filled,rounded", width=2.2, height=1.2];
+
+    // ===== 核心矛盾 =====
+    core [label="核心矛盾", fillcolor="#2E86C1", fontcolor=white, fontsize=12];
+    core_detail [label="识别题型套模板", fillcolor="#D6EAF8", fontcolor="#1A5276", fontsize=10];
+    root -> core;
+    core -> core_detail;
+
+    // ===== 分支1：关系理论 =====
+    b1 [label="关系理论", fillcolor="#E74C3C", fontcolor=white, fontsize=12];
+    root -> b1;
+    b1_n1 [label="求候选码\nL/R/LR+闭包", fillcolor="#FADBD8", fontcolor="#922B21"];
+    b1_n2 [label="范式判断\n四步判断", fillcolor="#FADBD8", fontcolor="#922B21"];
+    b1_n3 [label="BCNF分解\n找反例拆两半", fillcolor="#FADBD8", fontcolor="#922B21"];
+    b1_n4 [label="最小依赖集\n拆右去自压左", fillcolor="#FADBD8", fontcolor="#922B21"];
+    b1_n5 [label="模式分解\n表格法+3NF", fillcolor="#FADBD8", fontcolor="#922B21"];
+    b1 -> b1_n1;
+    b1 -> b1_n2;
+    b1 -> b1_n3;
+    b1 -> b1_n4;
+    b1 -> b1_n5;
+
+    // ===== 分支2：关系语言 =====
+    b2 [label="关系语言", fillcolor="#27AE60", fontcolor=white, fontsize=12];
+    root -> b2;
+    b2_n1 [label="关系代数\nσπ⋈÷−", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    b2_n2 [label="三类模板\n常规/除/差", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    b2_n3 [label="元组演算\n{t|P(t)}", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    b2 -> b2_n1;
+    b2 -> b2_n2;
+    b2 -> b2_n3;
+
+    // ===== 分支3：事务调度 =====
+    b3 [label="事务调度", fillcolor="#8E44AD", fontcolor=white, fontsize=12];
+    root -> b3;
+    b3_n1 [label="冲突可串行化\n前驱图无环", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    b3_n2 [label="封锁\nX锁/S锁", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    b3_n3 [label="三级封锁协议\n丢失/脏/不可重复", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    b3_n4 [label="两段锁2PL\n充分不必要", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    b3 -> b3_n1;
+    b3 -> b3_n2;
+    b3 -> b3_n3;
+    b3 -> b3_n4;
+
+    // ===== 分支4：数据库设计 =====
+    b4 [label="数据库设计", fillcolor="#D35400", fontcolor=white, fontsize=12];
+    root -> b4;
+    b4_n1 [label="E-R图\n□实体○属性◇关系", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    b4_n2 [label="转关系模型\n1:1/1:n/m:n", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    b4 -> b4_n1;
+    b4 -> b4_n2;
+
+    // ===== 分支5：易混淆对比 =====
+    compare [label="易混淆对比", fillcolor="#34495E", fontcolor=white, fontsize=12];
+    root -> compare;
+    cp1 [label="代数 vs 演算\n符号 vs 公式", fillcolor="#D5D8DC", fontcolor="#2C3E50"];
+    cp2 [label="三级封锁 vs 2PL\n特例 vs 一般", fillcolor="#D5D8DC", fontcolor="#2C3E50"];
+    cp3 [label="1:1/1:n/m:n\n转换规则不同", fillcolor="#D5D8DC", fontcolor="#2C3E50"];
+    compare -> cp1;
+    compare -> cp2;
+    compare -> cp3;
+}

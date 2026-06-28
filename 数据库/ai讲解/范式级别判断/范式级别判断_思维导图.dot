@@ -1,0 +1,82 @@
+digraph 范式级别判断 {
+    rankdir=LR;
+    bgcolor="#FAFBFC";
+    node [shape=box, style="rounded,filled", fontname="STHeiti", fontsize=11];
+    edge [color="#5B6770", penwidth=1.2];
+    splines=ortho;
+    nodesep=0.3;
+    ranksep=0.6;
+
+    // ===== 根节点 =====
+    root [label="范式级别判断\n六步上篮法", fillcolor="#1A5276", fontcolor=white, fontsize=15, shape=box, style="filled,rounded", width=2.2, height=1.2];
+
+    // ===== 核心矛盾 =====
+    core [label="核心矛盾", fillcolor="#2E86C1", fontcolor=white, fontsize=12];
+    core_detail [label="给定U和F，判断最高范式", fillcolor="#D6EAF8", fontcolor="#1A5276", fontsize=10];
+    root -> core;
+    core -> core_detail;
+
+    // ===== 分支1：求候选码 =====
+    b1 [label="求候选码", fillcolor="#E74C3C", fontcolor=white, fontsize=12];
+    root -> b1;
+    b1_n1 [label="L类必在码中", fillcolor="#FADBD8", fontcolor="#922B21"];
+    b1_n2 [label="LR类逐个试", fillcolor="#FADBD8", fontcolor="#922B21"];
+    b1 -> b1_n1;
+    b1 -> b1_n2;
+
+    // ===== 分支2：1NF =====
+    b2 [label="1NF（送分）", fillcolor="#27AE60", fontcolor=white, fontsize=12];
+    root -> b2;
+    b2_n1 [label="属性不可再分", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    b2_n2 [label="默认满足", fillcolor="#D5F5E3", fontcolor="#1E8449"];
+    b2 -> b2_n1;
+    b2 -> b2_n2;
+
+    // ===== 分支2.5：标非主属性 + 候选码 =====
+    b25 [label="标非主属性+候选码", fillcolor="#F39C12", fontcolor=white, fontsize=12];
+    root -> b25;
+    b25_n1 [label="非主属性=D、E", fillcolor="#FEF9E7", fontcolor="#B7950B"];
+    b25_n2 [label="候选码=AB、BC", fillcolor="#FEF9E7", fontcolor="#B7950B"];
+    b25 -> b25_n1;
+    b25 -> b25_n2;
+
+    // ===== 分支3：2NF =====
+    b3 [label="2NF", fillcolor="#8E44AD", fontcolor=white, fontsize=12];
+    root -> b3;
+    b3_n1 [label="非主属性完全依赖", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    b3_n2 [label="看非主属性左侧", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    b3_n3 [label="候选码必须完整出现", fillcolor="#E8DAEF", fontcolor="#6C3483"];
+    b3_def [label="定义:非主属性完全函数依赖候选码", fillcolor="#F4ECF7", fontcolor="#6C3483", fontsize=9];
+    b3 -> b3_def;
+    b3 -> b3_n1;
+    b3 -> b3_n2;
+    b3 -> b3_n3;
+
+    // ===== 分支4：3NF =====
+    b4 [label="3NF", fillcolor="#D35400", fontcolor=white, fontsize=12];
+    root -> b4;
+    b4_n1 [label="无传递依赖", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    b4_n2 [label="非主→非主=达咩", fillcolor="#FDEBD0", fontcolor="#A04000"];
+    b4_def [label="定义:非主属性不传递依赖候选码", fillcolor="#FDEBD0", fontcolor="#A04000", fontsize=9];
+    b4 -> b4_def;
+    b4 -> b4_n1;
+    b4 -> b4_n2;
+
+    // ===== 分支5：BCNF =====
+    b5 [label="BCNF", fillcolor="#1ABC9C", fontcolor=white, fontsize=12];
+    root -> b5;
+    b5_n1 [label="所有左侧都含码", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    b5_n2 [label="比2NF管得宽", fillcolor="#D1F2EB", fontcolor="#0E6655"];
+    b5_def [label="定义:每个决定因素都含候选码", fillcolor="#D1F2EB", fontcolor="#0E6655", fontsize=9];
+    b5 -> b5_def;
+    b5 -> b5_n1;
+    b5 -> b5_n2;
+
+    // ===== 分支6：易混淆对比 =====
+    compare [label="易混淆对比", fillcolor="#34495E", fontcolor=white, fontsize=12];
+    root -> compare;
+    cp1 [label="2NF vs BCNF：范围不同", fillcolor="#D5D8DC", fontcolor="#2C3E50"];
+    cp2 [label="3NF vs BCNF：传递 vs 含码", fillcolor="#D5D8DC", fontcolor="#2C3E50"];
+    compare -> cp1;
+    compare -> cp2;
+}

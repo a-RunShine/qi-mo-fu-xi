@@ -32,18 +32,27 @@
 - 同组文档只保留最完整的「标准增强版」，删除基础版和补充版
 - 生成前先检查同名文件是否存在，已存在则问：覆盖 / 跳过 / 新版本（`_v2`）
 
-## 技能（.opencode/skills/）
+## 技能（md-pdf 在全局，ai-lecture 在本地）
 
-### md-pdf — MD 转 PDF（Claude 深棕 + 信纸色主题）
+### md-pdf — MD 转 PDF（4 套主题：claude-brown / academic / bilibili-pink / lol）
 
-主能力：MD 渲染为带项目主题色的 PDF。辅以 PDF OCR（Swift+Vision）、题目合并/残留检查、横线格信纸模板生成。
+**位置**：`~/.claude/skills/md-pdf/`（**全局 skill，2026-07-01 同步**，本项目所有命令从此处调用）
+**项目特化版本**仍保留在 `.opencode/skills/md-pdf/`（旧路径，已停用，但备份完整可回滚）
+
+主能力：MD 渲染为带主题色的 PDF，支持 4 套主题 + JetBrains Mono 代码块字体。辅以 PDF OCR（Swift+Vision）、题目合并/残留检查、横线格信纸模板生成。
 工作流：MD 渲染 →（可选 OCR/合并/残留检查/信纸模板）。命令从工作区根目录执行：
 
-- OCR：`swift .opencode/skills/md-pdf/scripts/ocr_pdf.swift input.pdf output_dir output_ocr.txt`
-- 合并：`python3 .opencode/skills/md-pdf/scripts/merge_qa.py base.md supplement.md final.md [--title "标题"]`
-- 残留检查：`python3 .opencode/skills/md-pdf/scripts/check_residue.py final.md`
-- MD 转 PDF：`python3 .opencode/skills/md-pdf/scripts/convert_md_to_pdf.py input.md [output.pdf]`
-- 横线格信纸：`python3 .opencode/skills/md-pdf/scripts/make_lined_paper.py -o L|P [-n 行数]`
+- OCR：`swift ~/.claude/skills/md-pdf/scripts/ocr_pdf.swift input.pdf output_dir output_ocr.txt`
+- 合并：`python3 ~/.claude/skills/md-pdf/scripts/merge_qa.py base.md supplement.md final.md [--title "标题"]`
+- 残留检查：`python3 ~/.claude/skills/md-pdf/scripts/check_residue.py final.md`
+- MD 转 PDF：`python3 ~/.claude/skills/md-pdf/scripts/convert_md_to_pdf.py input.md [output.pdf] [--theme=NAME] [--chapter-name=TEXT]`
+- 横线格信纸：`python3 ~/.claude/skills/md-pdf/scripts/make_lined_paper.py -o L|P [-n 行数]`
+
+**主题参数**（`--theme`）：
+- `claude-brown`（默认）：信纸米 `#FFFBF5` + 琥珀橙 `#D97707`
+- `academic`：纯白 + 黑白灰
+- `bilibili-pink`：纯白 + B站粉 `#FB7299`
+- `lol`：深蓝 `#0A0E27` + LoL 金 `#C8AA6E`
 
 ### ai-lecture — 知识点转教师风格讲解 + 思维导图
 
@@ -60,16 +69,18 @@
 - `pip install 'fpdf2>=2.5.0'`（MD 转 PDF，低于 2.5.0 缺 `collection_font_number` 会失败）
 - `pip install 'Pillow>=10.0'`（处理装饰图标：白底透明化 + 缩放到 256×256）
 - Graphviz `dot` >= 7.0（思维导图用 `splines=ortho`，低版本不支持）
-- macOS 中文字体（脚本硬编码路径）：
-  - `/System/Library/Fonts/STHeiti Medium.ttc`
-  - `/System/Library/Fonts/Supplemental/Songti.ttc`
-- 非 macOS：需修改 `convert_md_to_pdf.py` 字体路径
+- macOS 字体（脚本硬编码路径，2026-07-01 更新）：
+  - 标题/粗体：`/System/Library/Fonts/STHeiti Medium.ttc`
+  - 正文+数学（首选）：`/System/Library/Fonts/Supplemental/Arial Unicode.ttf`（38K 字形含 CJK + Latin + math）
+  - 正文+数学（备选）：`/System/Library/Fonts/Supplemental/Songti.ttc`
+  - 代码块（Latin）：`/Users/sunshine/Library/Fonts/JetBrainsMono-Regular.ttf`（macOS 用户须先安装，缺则 fallback 到 Menlo.ttc）
+- 非 macOS：需修改 `convert_md_to_pdf.py` 中 `_FONT_HEADING_CANDIDATES` / `_FONT_BODY_CANDIDATES` / `_FONT_LATIN_CANDIDATES` 三个列表
 - PDF 不支持 `⭐⊂✓✗` 等 Unicode，用 `【重点】` / `是...的子集` / `正确` / `错误` 替代
 
-## PDF 主题色（2026-06-22 起生效）
+## PDF 主题色（2026-07-01 起 4 套主题，claude-brown 为默认）
 
-所有 PDF 默认采用「Claude 深棕 + 信纸色」主题，由
-`.opencode/skills/md-pdf/scripts/convert_md_to_pdf.py` 控制：
+所有 PDF 默认采用「Claude 深棕 + 信纸色」主题（`--theme=claude-brown`），由
+`~/.claude/skills/md-pdf/scripts/convert_md_to_pdf.py` 控制：
 
 
 | 元素        | 色值      | 用途               |
@@ -95,7 +106,7 @@
 - **批量重生成**：从工作区根执行
 
   find ./数据库 ./软件工程 ./面向对象原则 -name "*.md" -not -name "INDEX.md" \
-    | xargs -I{} python3 .opencode/skills/md-pdf/scripts/convert_md_to_pdf.py {}
+    | xargs -I{} python3 ~/.claude/skills/md-pdf/scripts/convert_md_to_pdf.py {} --theme=claude-brown
 
   - **未纳入脚本的 PDF**：`数据库/突击笔记/` 下 4 个 PDF（`大题解题方法` / `SQL语言` / `选填题知识点` / `范式级别判断`）是 OCR 源素材，无 .md 源，未走新主题色。需要重新 OCR + 整理为 .md 后才能用脚本生成。
   - **章节名匹配失败**：_extract_chapter_name 依赖 `第X章_XXX_` 命名规范，不符合命名的 .md 生成 PDF 时页脚会留空（不影响内容）。

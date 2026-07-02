@@ -38,16 +38,13 @@
 |---|---|---|
 | `md-pdf` | `~/.claude/skills/md-pdf` | MD→PDF(4 主题)+ OCR/合并/残留检查/信纸 |
 | `ai-lecture` | `.opencode/skills/ai-lecture` | 知识点讲解 + 思维导图(DOT+PNG) |
-| `db-question-gen` | `~/.claude/skills/db-question-gen` | 数据库选择题生成 |
-| `db-question-analysis` | `~/.claude/skills/db-question-analysis` | 数据库选择题解析 |
-| `se-question-gen` | `~/.claude/skills/se-question-gen` | 软工选择题生成(含 v2 深度版) |
-| `se-question-analysis` | `~/.claude/skills/se-question-analysis` | 软工选择题解析 |
+| `db-question-suite` | `~/.claude/skills/db-question-suite` | 数据库选择题套件(出题 + 解析) |
+| `se-question-suite` | `~/.claude/skills/se-question-suite` | 软工选择题套件(出题 + 解析,含 v2 深度版) |
 | `openspec-*` (4 个) | `.opencode/skills/openspec-*` | 规范驱动工作流(当前为空架构) |
 
 **触发规则**:
 
-- "出题/选择题" → 学科前缀匹配 + `*-question-gen`
-- "写解析/补解析" → `*-question-analysis`
+- "出题/选择题/写解析/补解析" → 学科前缀匹配 + `*-question-suite`
 - "练习题/综合应用题/大题专项" → 暂无独立 skill,直接按 `docs/guides/练习题深度规格说明.md` 生成
 - "讲解/思维导图" → `ai-lecture`
 - "转 PDF/合并/OCR/信纸" → `md-pdf`

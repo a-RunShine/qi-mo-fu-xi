@@ -1,0 +1,76 @@
+// 数据库期末突击试卷 E-R 参考图
+// 业务场景：校园外卖配送系统（第 22 题）
+// 6 实体 + 4 联系
+
+digraph ER {
+    rankdir=LR;
+    fontname="STHeiti Medium";
+    node [fontname="STHeiti Medium"];
+    edge [fontname="STHeiti Medium", fontsize=11];
+
+    // 实体（矩形，圆角，浅色填充）
+    node [shape=box, style="rounded,filled", fillcolor="#FFFBF5", color="#D97707"];
+    用户 [label=<
+        <b>用户</b><br/>
+        ──────<br/>
+        <u>用户号</u> (PK)<br/>
+        姓名<br/>
+        手机号<br/>
+        所在宿舍/地址
+    >];
+    商家 [label=<
+        <b>商家</b><br/>
+        ──────<br/>
+        <u>商家号</u> (PK)<br/>
+        商家名<br/>
+        商家地址<br/>
+        营业状态
+    >];
+    菜品 [label=<
+        <b>菜品</b><br/>
+        ──────<br/>
+        <u>菜品号</u> (PK)<br/>
+        菜品名<br/>
+        单价
+    >];
+    骑手 [label=<
+        <b>骑手</b><br/>
+        ──────<br/>
+        <u>骑手号</u> (PK)<br/>
+        姓名<br/>
+        手机号<br/>
+        当前状态
+    >];
+    订单 [label=<
+        <b>订单</b><br/>
+        ──────<br/>
+        <u>订单号</u> (PK)<br/>
+        下单时间<br/>
+        期望送达时间<br/>
+        配送地址<br/>
+        订单状态<br/>
+        订单总金额
+    >];
+
+    // 联系（菱形，浅米色填充）
+    node [shape=diamond, style="filled", fillcolor="#F0E4C9", color="#5C3A21"];
+    下单 [label="下单\n(1:N)"];
+    接单 [label="接单\n(1:N)"];
+    属于 [label="属于\n(N:1)"];
+    配送 [label="配送\n(M:N)"];
+
+    // 联系边（标注 1/N/M 端）
+    用户 -> 下单 [label="1", color="#5C3A21"];
+    下单 -> 订单 [label="N", color="#5C3A21"];
+    商家 -> 接单 [label="1", color="#5C3A21"];
+    接单 -> 订单 [label="N", color="#5C3A21"];
+    商家 -> 属于 [label="1", color="#5C3A21"];
+    属于 -> 菜品 [label="N", color="#5C3A21"];
+    订单 -> 配送 [label="M", color="#5C3A21"];
+    配送 -> 骑手 [label="N", color="#5C3A21"];
+
+    // 标题
+    labelloc="t";
+    label=<<b>校园外卖配送系统 E-R 图</b>>;
+    fontsize=14;
+}

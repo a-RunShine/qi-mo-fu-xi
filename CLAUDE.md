@@ -38,8 +38,8 @@
 |---|---|---|
 | `md-pdf` | `~/.claude/skills/md-pdf` | MD→PDF(4 主题)+ OCR/合并/残留检查/信纸 |
 | `ai-lecture` | `.opencode/skills/ai-lecture` | 知识点讲解 + 思维导图(DOT+PNG) |
-| `db-question-suite` | `~/.claude/skills/db-question-suite` | 数据库选择题套件(出题 + 解析) |
-| `se-question-suite` | `~/.claude/skills/se-question-suite` | 软工选择题套件(出题 + 解析,含 v2 深度版) |
+| `db-question-suite` | `.claude/skills/db-question-suite` | 数据库选择题套件(出题 + 解析) |
+| `se-question-suite` | `.claude/skills/se-question-suite` | 软工选择题套件(出题 + 解析,含 v2 深度版) |
 | `openspec-*` (4 个) | `.opencode/skills/openspec-*` | 规范驱动工作流(当前为空架构) |
 
 **触发规则**:
